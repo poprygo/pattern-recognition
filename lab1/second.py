@@ -72,4 +72,4 @@ async def second_task():
 
 if __name__ == "__main__":
     doctest.testmod()
-    asyncio.get_event_loop().run_until_complete(second_task())
+#     asyncio.get_event_loop().run_until_complete(second_task())
