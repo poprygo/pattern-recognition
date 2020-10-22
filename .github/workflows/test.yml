@@ -26,5 +26,5 @@ jobs:
           
       - name: Test with python
         run: |
-          python lab1/first.py -v
-          python lab1/second.py -v
+          python lab1/first.py -v 1 1 3 0.1
+          python lab1/second.py -v 3 4 2
