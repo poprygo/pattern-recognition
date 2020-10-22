@@ -32,18 +32,17 @@ async def second_task():
     uri = "wss://sprs.herokuapp.com/second/Yaroslav"
     async with websockets.connect(uri) as websocket:
 
-        width = int(input("weight: "))
+        width = 3
         if 2 >= width >= 1000:
             print("error width")
-            width = int(input("weight: "))
-        totalSteps = int(input("total steps: "))
+
+        totalSteps = 4
         if 1 >= totalSteps >= 1000000:
             print("error total steps")
-            totalSteps = int(input("total steps: "))
-        repeats = int(input("repeats: "))
+
+        repeats = 2
         if 1 >= repeats >= 1000:
             print("error repeats")
-            repeats = int(input("repeats: "))
 
         a1 = json.dumps({"data": {"width": width, "loss": "L1", "totalSteps": totalSteps, "repeats": repeats}})
         await websocket.send(a1)
