@@ -36,12 +36,12 @@ def first(etalons, number, p):
             for j in range(len(digit[0])):
                 if p != 1 and p != 0:
                     result += logical_xor(number[i][j], etalons[str(k)][i][j]) * log(p) + logical_xor(logical_xor(1, number[i][j]), etalons[str(k)][i][j]) * log(1 - p)
-                elif noise == 1:
+                elif p == 1:
                     result += logical_xor(number[i][j], etalons[str(k)][i][j])
-                elif noise == 0:
+                elif p == 0:
                     result += logical_xor(logical_xor(1, number[i][j]), etalons[str(k)][i][j])
 
-        value[str(k)] = res
+        value[str(k)] = result
 
     return max(value, key=value.get)
 
@@ -55,54 +55,49 @@ async def hello():
         a1 = json.dumps({"data": {"message": "Let's start"}})
         await websocket.send(a1)
 
-        response = await websocket.recv()
-        print(f"\n >>>:", a1,"\n <<<:", json.loads(response))
+        a2 = await websocket.recv()
+        print(f"\n >>>:", a1,"\n <<<:", json.loads(a2))
 
-        width = int(input("width: "))
+        width = 20
         if 0 >= width >= 100:
             print('width must be between 1 and 100')
-            width = int(input('width: '))
 
-        height = int(input('height: '))
+        height = 20
         if 0 >= height >= 100:
             print('height must be between 1 and 100')
-            height = int(input('height: '))
 
-        total_steps = int(input('total_steps: '))
+        total_steps = 10
         if 0 >= total_steps >= 1000000:
             print('total_steps must be between 1 and 1 000 000')
-            total_steps = int(input('total_steps: '))
 
-        p = float(input('noise: '))
+        p = 0
         if 0 >= p >= 1 :
             print('noise must be between 0 and 1')
-            p = float(input('noise: '))
 
-        a2 = json.dumps({"data": {"width": width, "height": height, "totalSteps": total_steps, "noise": p, "shuffle": False}})
+        a3 = json.dumps({"data": {"width": width, "height": height, "totalSteps": total_steps, "noise": p, "shuffle": False}})
 
-        await websocket.send(a2)
-        response = await websocket.recv()
-        print(f"\n >>>:", a2,"\n <<<:", json.loads(response))
+        await websocket.send(a3)
+        a4 = await websocket.recv()
+        print(f"\n >>>:", a3,"\n <<<:", json.loads(a4))
 
         for i in range(total_steps):
-            k ={"data": {"message": "Ready"}}
-            await websocket.send(json.dumps(k))
-            response = await websocket.recv()
-            print(f"\n >>>:", k,"\n <<<:", json.loads(response))
 
-            result = str(1)
-            print('result:', result)
+            a5 = {"data": {"message": "Ready"}}
+            await websocket.send(json.dumps(a5))
+            a6 = await websocket.recv()
+            print(f"\n >>>:", a5,"\n <<<:", json.loads(a6))
 
-            a3 = {"data": {"step": i + 1, "answer": str(result)}}
+            a7 = first(etalons=json.loads(a4)["data"], number= json.loads(a6)["data"]["matrix"], p=p)
+            a8 = {"data": {"step": i + 1, "answer": a7}}
 
-            await websocket.send(json.dumps(a3))
-            response = await websocket.recv()
-            print(f"\n >>>:", a3,"\n <<<:", json.loads(response))
+            await websocket.send(json.dumps(a8))
+            a9 = await websocket.recv()
+            print(f"\n >>>:", a8,"\n <<<:", json.loads(a9))
 
-        bye = json.dumps({"data": {"message": "Bye"}})
-        await websocket.send(bye)
-        response = await websocket.recv()
-        print(f"\n >>>:", bye, "\n <<<:", json.loads(response))
+        a10 = json.dumps({"data": {"message": "Bye"}})
+        await websocket.send(a10)
+        a11 = await websocket.recv()
+        print(f"\n >>>:", a10, "\n <<<:", json.loads(a11))
 
         # print(json.loads(response)['data']['height'])
 
