@@ -28,4 +28,4 @@ jobs:
         run: |
           python lab1/first.py -v 
           python lab1/second.py -v 
-          python -m doctest -v Lab3/func.py
+          python -m doctest -v Lab3/functions.py
